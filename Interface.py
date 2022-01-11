@@ -5,6 +5,11 @@ from Real_Time_Face_Detection import face_detection
 from record_video import  record_video
 from image_face_detection import image_face_detection
 from PIL import ImageTk,Image
+from auto import automatic_brightness_and_contrast
+from Image_Enhancement import Manual_Image_Enhancement
+
+
+## Made By Arda Dumanoglu
 
 def Color_Overlay_Adjustments():
     top = Toplevel()
@@ -28,19 +33,52 @@ def Color_Overlay_Adjustments():
     green_text= Label(top,text="Green").grid(row=1,column=3)
     blue_text= Label(top,text="Blue").grid(row=1,column=4)
 
-
-
     empty_space = Label(top, text="                  ").grid(row=3,column=2)
-    apply_button = Button(top, text="Apply", command=lambda :apply_color_overlay(intensity_value.get(),blue_value.get(),green_value.get(),red_value.get()))
+    apply_button = Button(top, text="Apply", command=lambda: apply_color_overlay(intensity_value.get(),blue_value.get(),green_value.get(),red_value.get()))
     apply_button.grid(padx=30,pady=10,row=4,column=2)
 
+def Manual_Image_Editor():
+    image_path = Select_Image_With_Path()
+    if image_path == "":
+        return
+    roof = Toplevel()
+    roof.geometry("630x200")
+    roof.title("Manual_Image_Editing")
+    title1 = Label(roof, text="Edit  the selected image with sliders then hit  apply for the result (1  represents original value).", fg="red")
+    title1.grid(row=0,column=1,columnspan=5)
+
+    Brightness_value = DoubleVar()
+    Brightness_value.set(1)            # We don't want to set default value as 0.0 . So we set as 1 which represented  original image.
+    Color_Saturation_Value = DoubleVar()
+    Color_Saturation_Value.set(1)
+    Sharpness_value = DoubleVar()
+    Sharpness_value.set(1)
+    Contrast_value = DoubleVar()
+    Contrast_value.set(1)
+
+    Color_Saturation = Scale(roof, from_=-10, to=10,resolution=0.1,orient=HORIZONTAL,variable=Color_Saturation_Value).grid(row=2,column=1)
+    Brightness = Scale(roof, from_=0, to=10,resolution=0.1,orient=HORIZONTAL,variable=Brightness_value).grid(row=2,column=2)
+    Sharpness = Scale(roof, from_=-10, to=10,resolution=0.1,orient=HORIZONTAL,variable=Sharpness_value).grid(row=2,column=3)
+    Contrast = Scale(roof, from_=-10, to=10,resolution=0.1,orient=HORIZONTAL,variable=Contrast_value).grid(row=2,column=4)
+
+    Color_Saturation_text= Label(roof,text="Color Saturation").grid(row=1,column=1)
+    Brigtness_text= Label(roof,text="Brightness").grid(row=1,column=2)
+    Sharpness_text= Label(roof,text="Sharpness").grid(row=1,column=3)
+    Contrast_text= Label(roof,text="Contrast").grid(row=1,column=4)
+
+    empty_space = Label(roof, text="                  ").grid(row=3,column=2)
+    apply_button = Button(roof, text="Apply", command=lambda: Manual_Image_Enhancement(image_path,Color_Saturation_Value.get(),Contrast_value.get(),Sharpness_value.get(),Brightness_value.get()))
+    apply_button.grid(padx=30,pady=10,row=4,column=2)
+
+    tip = Label(roof, text="If you want to save the edited image\npress 'CTRL+S' when it appears.",fg="red")
+    tip.grid(row=4,column=5)
+
 def Select_Image_With_Path():
-    filename = filedialog.askopenfilename(initialdir="C:/",title = "Select Your Image for Face Detection", filetypes=(("jpeg files","*.jpg"),("png files","*.png"),("all files","*.*")))
+    filename = filedialog.askopenfilename(initialdir="C:/",title = "Choose Your Image to Use", filetypes=(("jpeg files","*.jpg"),("png files","*.png"),("all files","*.*")))
     return filename
 
-
 root = Tk()
-root.geometry("700x250")
+root.geometry("800x270")
 root.title("Face Detection and Applying Filters")
 
 title = Label(root, text="Select the Filter that you want to apply!        (PRESS E TO EXIT SELECTED FILTER)", fg="red")
@@ -48,16 +86,18 @@ title.grid(row=0, column=0, columnspan=4)
 
 space = Label(root, text="                  ")
 space.grid(row=1, column=0)
-sepia_button = Button(root, text="Sepia Filter", padx=30, pady=10, command=lambda : apply_sepia_filter(intensity=0.6))
+sepia_button = Button(root, text="Sepia Filter", padx=30, pady=10, command=lambda: apply_sepia_filter(intensity=0.6))
 color_overlay_button = Button(root, text="Color Overlay Filter", padx=30, pady=10,command=Color_Overlay_Adjustments)
 hue_sat_button = Button(root, text="Hue Saturation Filter", padx=30, pady=10,command=apply_hue_saturation)
 Threshold_button = Button(root, text="Threshold Mode", padx=30, pady=10,command=apply_threshold_mode)
 Invert_button = Button(root, text="Invert Mode", padx=30, pady=10,command=apply_invert)
-Blur_mask_button = Button(root, text="Circle Focus Blur Filter", padx=30, pady=10,command=lambda :apply_circle_focus_blur_filter(intensity=0.4))
+Blur_mask_button = Button(root, text="Circle Focus Blur Filter", padx=30, pady=10,command=lambda: apply_circle_focus_blur_filter(intensity=0.4))
 Portrait_button = Button(root, text="Portrait Mode", padx=30, pady=10,command=apply_portrait_mode)
-Face_detection_Button = Button(root, text="Real Time Face Detection",padx=30 , pady=10,command=face_detection)
+Face_detection_Button = Button(root, text="Real-Time Face Detection",padx=30 , pady=10,command=face_detection)
 Record_video_button = Button(root, text="Record Video",padx=20 , pady=10,command=record_video )
-Image_face_Detection_button = Button(root, text="Image Face Detection",padx=30 , pady=10,command=lambda :image_face_detection(Select_Image_With_Path()))
+Image_face_Detection_button = Button(root, text="Image Face Detection",padx=30 , pady=10,command=lambda: image_face_detection(Select_Image_With_Path()))
+Brightness_Contrast_Enhancer_Button = Button(root, text="Auto Brightness-Contrast Enhancer", padx=30, pady=10, command=lambda: automatic_brightness_and_contrast())
+Manual_Image_Enhancement_Button = Button(root, text="Manual Image Enhancer", padx=30, pady=10, command=lambda: Manual_Image_Editor())
 
 
 sepia_button.grid(row=2, column=0)
@@ -80,6 +120,8 @@ space_3.grid(row=5, column=0)
 
 Record_video_button.grid(row=6, column=0)
 Image_face_Detection_button.grid(row=6,column=1)
+Brightness_Contrast_Enhancer_Button.grid(row=6, column=2)
+Manual_Image_Enhancement_Button.grid(row=6,column=3)
 root.mainloop()
 
 

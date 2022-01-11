@@ -3,12 +3,8 @@ import cv2
 
 
 
-# capture = cv2.VideoCapture(0)
-# frames_per_seconds = 20
-# save_path = 'saved_videos/filters.mp4'
-# configuration = CFEVideoConfiguration(capture, filepath=save_path, res='480p')
-# out = cv2.VideoWriter(save_path, configuration.video_type, frames_per_seconds, configuration.dims)
 
+ ## Made By Arda Dumanoglu
 
 def verify_alpha_channel(frame):
     try:
@@ -144,43 +140,6 @@ def apply_invert():
    capture.release()
    cv2.destroyAllWindows()
 
-#
-# while (True):
-#     # Capture frame-by-frame
-#     ret, frame = capture.read()
-#     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA)    # converting RGB TO RGBA
-
-
-
-#     # cv2.imshow('frame',frame)  this is the reference for all codes below
-#
-#     hue_sat = apply_hue_saturation(frame.copy(), alpha=3, beta=3)
-#     cv2.imshow('hue_sat', hue_sat)
-#
-#     sepia = apply_sepia_filter(frame.copy(), intensity=.8)
-#     cv2.imshow('sepia', sepia)
-#
-#     color_overlay = apply_color_overlay(frame.copy(), intensity=.8, red=123, green=231)  # blue is default 0
-#     cv2.imshow('color_overlay', color_overlay)
-#
-#     threshold_mode = apply_threshold_mode(frame.copy())
-#     cv2.imshow('threshold(mask)', threshold_mode)
-#
-#     invert = apply_invert(frame.copy())
-#     cv2.imshow('invert', invert)
-#
-#     blur_mask = apply_circle_focus_blur_filter(frame.copy())
-#     cv2.imshow('blur_mask', blur_mask)
-#
-#     portrait = apply_portrait_mode(frame.copy())
-#     cv2.imshow('portrait', portrait)
-#
-#     if cv2.waitKey(10) & 0xFF == ord('e'):    # waiting 10 ms delay when we press e to exit the code
-#         break
-
-# When everything is done, release the capture
-# capture.release()
-# cv2.destroyAllWindows()
 
 
 

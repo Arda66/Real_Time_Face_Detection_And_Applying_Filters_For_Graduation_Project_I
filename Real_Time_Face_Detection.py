@@ -1,14 +1,14 @@
 import cv2
 
 def face_detection():
-    #We use built-in haarcascade classifier from cv2 library to detect the frontal face
-    face_cascade = cv2.CascadeClassifier('C:/Users/190315072/PycharmProjects/face_detection/cascades/data/haarcascade_frontalface_alt2.xml')
+    # We use built-in haarcascade classifier from cv2 library to detect the frontal face
+    face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
     capture = cv2.VideoCapture(0)
     while (True):
         ret, frame = capture.read()
         # We turn the frame into gray to use the cascade.
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        # We use this line from the documentationg
+        # We use this line from the documentation
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
         for (x, y, w, h) in faces:
             # Location of the frame is as shown below
