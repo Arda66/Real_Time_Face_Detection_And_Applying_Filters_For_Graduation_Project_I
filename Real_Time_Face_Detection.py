@@ -1,10 +1,11 @@
 import cv2
 
+
 def face_detection():
     # We use built-in haarcascade classifier from cv2 library to detect the frontal face
     face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
     capture = cv2.VideoCapture(0)
-    while (True):
+    while True:
         ret, frame = capture.read()
         # We turn the frame into gray to use the cascade.
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -20,15 +21,12 @@ def face_detection():
             # These are the face coordinates as explained above
             end_cord_x = x + w
             end_cord_y = y + h
-    # With this .rectangle() method we are able to draw the rectangle around the face with the color, thickness and the coordinates
+            # With this .rectangle() method we are able to draw the rectangle around the face with the color, thickness and the coordinates
             cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
 
         cv2.imshow('Real Time Face Detection', frame)
 
         if cv2.waitKey(10) & 0xFF == ord('e'):
             break
-
     capture.release()
     cv2.destroyAllWindows()
-
-

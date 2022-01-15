@@ -1,8 +1,10 @@
 import os
+
 import cv2
 
-def record_video():
-    # As an extention we can use .mp4 or .avi
+
+def record_video(file_path):
+    # As an extension we can use .mp4 or .avi
     filename = 'video.mp4'
     frames_per_seconds = 24.0
     my_res = '720p'
@@ -12,8 +14,8 @@ def record_video():
         cap.set(3, width)
         cap.set(4, height)
 
-    # A dictionary containing width and height values for the standart resolutions. We use this file to get the right sizes for given resolution value.
-    res_sizes =  {
+    # A dictionary containing width and height values for the standard resolutions. We use this file to get the right sizes for given resolution value.
+    res_sizes = {
         "480p": (640, 480),
         "720p": (1280, 720),
         "1080p": (1920, 1080),
@@ -29,39 +31,36 @@ def record_video():
         change_res(cap, width, height)
         return width, height
 
-
     # These are 2 different video file types and the video codec(XVID). XVID video codec works well with windows and with the file types .avi and .mp4
-    VIDEO_TYPE = {
+    video_type = {
         'avi': cv2.VideoWriter_fourcc(*'XVID'),
-        'mp4': cv2.VideoWriter_fourcc(*'XVID'),
+        'mp4': cv2.VideoWriter_fourcc(*'MPEG'),
     }
 
-    # We use this function to get the vide extention name from the filename we entered. If the extention is different from mp4 or avi, function will set it as avi as default.
+    # We use this function to get the video extention name from the filename we entered. If the extension is different from mp4 or avi, function will set it as avi as default.
     def get_video_type(filename):
         filename, ext = os.path.splitext(filename)
-        if ext in VIDEO_TYPE:
-            return  VIDEO_TYPE[ext]
-        return VIDEO_TYPE['avi']
-
-
+        if ext in video_type:
+            return video_type[ext]
+        return video_type['avi']
 
     cap = cv2.VideoCapture(0)
-    # We get the sizes by calling the get_sizes function and entering our prefferred resolution to resize the default.
+    # We get the sizes by calling the get_sizes function and entering our preferred resolution to resize the default.
     sizes = get_sizes(cap, res=my_res)
     # We will get the video type to use it in .VideoWriter() method.
     video_type_cv2 = get_video_type(filename)
     # We define our save path for the output video
-    save_path = os.path.join('C:/Users/190315072/Downloads/', filename)
+    save_path = os.path.join(file_path, filename)
 
-    # This is the output file containing our video with the given save path, video extention, fps value and size.
+    # This is the output file containing our video with the given save path, video extension, fps value and size.
     output = cv2.VideoWriter(save_path, video_type_cv2, frames_per_seconds, sizes)
 
-    while(True):
+    while True:
         # We use a infinite while loop to get all the frames until we hit exit.
         ret, frame = cap.read()
         # Here we are saving every frame into the output file until we break the loop
         output.write(frame)
-        cv2.imshow('frame',frame)
+        cv2.imshow('frame', frame)
         if cv2.waitKey(10) & 0xFF == ord('e'):
             break
 
@@ -69,4 +68,3 @@ def record_video():
     cap.release()
     output.release()
     cv2.destroyAllWindows()
-

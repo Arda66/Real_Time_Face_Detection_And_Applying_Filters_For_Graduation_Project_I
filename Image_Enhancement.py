@@ -1,6 +1,7 @@
-from PIL import Image, ImageEnhance, ImageFilter
+from PIL import Image, ImageEnhance
 
-def Manual_Image_Enhancement(image_filepath,Color_Saturation,contrast_value,sharpness_value,brigtness_value):
+
+def Manual_Image_Enhancement(image_filepath, Color_Saturation, contrast_value, sharpness_value, brigtness_value):
     img = Image.open(image_filepath)
     color_img = ImageEnhance.Color(img)
     color_img = color_img.enhance(Color_Saturation)
@@ -9,6 +10,5 @@ def Manual_Image_Enhancement(image_filepath,Color_Saturation,contrast_value,shar
     sharpen_img = ImageEnhance.Sharpness(contrast_img)
     sharpen_img = sharpen_img.enhance(sharpness_value)
     brightness_img = ImageEnhance.Brightness(sharpen_img)
-    latest_edited_image = brightness_img.enhance(brigtness_value).show("Result of the Edited Image")
-    # latest_edited_image = Image.open()
-    # latest_edited_image = latest_edited_image.save('savedimage.jpg')
+    brightness_img.enhance(brigtness_value).show("Result of the Edited Image")
+
