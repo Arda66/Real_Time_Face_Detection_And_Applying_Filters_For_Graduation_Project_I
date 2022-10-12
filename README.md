@@ -4,7 +4,7 @@ First clone the project then run the Interface.py file
 Read the project documentation first.
 
 DESCRIPTION:
-It is a graduation project that I developed on the Tkinter interface in Python, where there
+It is a graduation project that I developed on the Tkinter interface and openCV in Python, where there
 are many different options and the desired one can be selected from the interface. As an
 option, we can add filters to our webcam or manually increase and decrease the color
 saturation, adjust the values such as contrast and brightness, and get the output we
